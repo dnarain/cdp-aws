@@ -1,4 +1,4 @@
-# aws-iam-tf
+# cdp-aws
  
 Generate the AWS IAM roles & policies used by CDP. The generated artifacts
 are named according to the CDP Documentation 
