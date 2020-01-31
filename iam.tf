@@ -17,7 +17,7 @@ variable "DYNAMODB_TABLE_NAME" {
 ### THESE VARIABLES CAN BE SET BY COMMAND LINE FLAGS
 
 variable "PREFIX" {
-  default = [""]
+  default = ""
   description = "Prefix for names of created objects (e.g. CDPPOC_)"
 }
 
