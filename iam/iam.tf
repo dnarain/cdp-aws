@@ -1,3 +1,27 @@
+##   Terraform to set up a VPC for CDP w/ CCM (Private IPs) enabled
+##   dnarain@cloudera.com
+
+## This TF will create the following artifacts
+## 4x IAM Roles:
+## - IDBROKER_ROLE
+## - LOG_ROLE
+## - DATALAKE_ADMIN_ROLE
+## - RANGER_AUDIT_ROLE
+## 6x Permissions Policies:
+## - aws-cdp-log-policy
+## - aws-cdp-ranger-audit-s3-policy
+## - aws-cdp-datalake-admin-s3-policy
+## - aws-cdp-bucket-access-policy
+## - aws-cdp-dynamodb-policy
+## - aws-cdp-idbroker-assume-role
+
+## All nomenclature is as per CDP Documentation ()
+
+# if you want the generated artifacts to have a prefix to their name, then 
+# specify by using -var argument on the command line
+# e.g. terraform appy -var="PREFIX=MyPrefix_"
+
+
 ## Connect this to your AWS account - either provide a region/profile or
 ## alternatively the access_key/secret-key 
 
@@ -11,17 +35,17 @@ provider "aws" {
 ### THESE VARIABLES WILL BE REQUESTED ON THE COMMAND LINE
 
 variable "AWS_ACCOUNT_ID" {
-  description = "Please enter the 12 Digit AWS Account ID that you will use for CDP"
+  description = "Enter the 12 Digit AWS Account ID that you will use for CDP"
 }
 
 variable "DATALAKE_BUCKET" {
   type=string
-  description = "Please enter the bucket name (without s3://), wildcards are supported"
+  description = "Enter the bucket name (without s3://), wildcards are supported"
 }
 
 variable "DYNAMODB_TABLE_NAME" {
  type = string
- description = "Name of the dyanmodb table that you will provide CDP (wildcards are supported)"
+ description = "Enter the dyanmodb table that you will provide CDP (wildcards are supported)"
 }
 
 ### THESE VARIABLES CAN BE SET BY COMMAND LINE FLAGS
