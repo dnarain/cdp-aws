@@ -33,7 +33,7 @@ locals {
 // IDBROKER_ROLE
 resource "aws_iam_instance_profile" "idbroker" {
   name = "${var.PREFIX}IDBROKER_ROLE"
-  role = "${aws_iam_role.idbroker.name}"
+  role = "$aws_iam_role.idbroker.name"
 }
 
 resource "aws_iam_role" "idbroker" {
@@ -50,7 +50,7 @@ resource "aws_iam_role" "idbroker" {
 
 resource "aws_iam_instance_profile" "log" {
   name = "${var.PREFIX}LOGS_ROLE"
-  role = "${aws_iam_role.log.name}"
+  role = "$aws_iam_role.log.name"
 }
 
 resource "aws_iam_role" "log" {
@@ -70,7 +70,7 @@ resource "aws_iam_role" "ranger_audit" {
 
   assume_role_policy = replace(templatefile("${local.policies_dir}/aws-cdp-idbroker-role-trust-policy.json",
     { AWS_ACCOUNT_ID = "${var.AWS_ACCOUNT_ID}",
-      IDBROKER_ROLE = "${aws_iam_role.idbroker.name}"
+      IDBROKER_ROLE = "$aws_iam_role.idbroker.name"
     }
     ),
     "Allow",
@@ -84,7 +84,7 @@ resource "aws_iam_role" "datalake_admin" {
   path="/"
   assume_role_policy = replace(templatefile("${local.policies_dir}/aws-cdp-idbroker-role-trust-policy.json",
     { AWS_ACCOUNT_ID = "${var.AWS_ACCOUNT_ID}",
-      IDBROKER_ROLE = "${aws_iam_role.idbroker.name}"
+      IDBROKER_ROLE = "$aws_iam_role.idbroker.name"
     }
     ),
     "Allow",
@@ -167,38 +167,38 @@ resource "aws_iam_policy" "aws_cdp_dynamodb_policy" {
 
 // Log role
 resource "aws_iam_role_policy_attachment" "log_role_to_log_policy_s3access" {
-  role = "${aws_iam_role.log.name}"
-  policy_arn = "${aws_iam_policy.aws_cdp_log_policy.arn}"
+  role = "$aws_iam_role.log.name"
+  policy_arn = "$aws_iam_policy.aws_cdp_log_policy.arn"
 }
 
 
   
 // idbroker_role
 resource "aws_iam_role_policy_attachment" "idbroker_role_to_assume_role_policy" {
-  role = "${aws_iam_role.idbroker.name}"
-  policy_arn = "${aws_iam_policy.aws_cdp_idbroker_assume_role.arn}"
+  role = "$aws_iam_role.idbroker.name"
+  policy_arn = "$aws_iam_policy.aws_cdp_idbroker_assume_role.arn"
 }
 
 
 // Ranger Audit Role
 resource "aws_iam_role_policy_attachment" "ranger_audit_role_to_range_audit_policy_s3access" {
-  role = "${aws_iam_role.ranger_audit.name}"
-  policy_arn = "${aws_iam_policy.aws_cdp_ranger_audit_s3_policy.arn}"
+  role = "$aws_iam_role.ranger_audit.name"
+  policy_arn = "$aws_iam_policy.aws_cdp_ranger_audit_s3_policy.arn"
 }
 
 resource  "aws_iam_role_policy_attachment" "ranger_audit_role_to_bucket_policy_s3_access" {
-  role = "${aws_iam_role.ranger_audit.name}"
-  policy_arn = "${aws_iam_policy.aws_cdp_ranger_audit_s3_policy.arn}"
+  role = "$aws_iam_role.ranger_audit.name"
+  policy_arn = "$aws_iam_policy.aws_cdp_ranger_audit_s3_policy.arn"
 }
 
 
 // Datalake admin
 resource "aws_iam_role_policy_attachment" "datalake_admin_role_to_datalake_admin_policy_s3access" {
-  role = "${aws_iam_role.datalake_admin.name}"
-  policy_arn = "${aws_iam_policy.aws_cdp_bucket_access_policy.arn}"
+  role = "$aws_iam_role.datalake_admin.name"
+  policy_arn = "$aws_iam_policy.aws_cdp_bucket_access_policy.arn"
 }
 
 resource  "aws_iam_role_policy_attachment" "datalake_admin_role_to_dynamodb_policy" {
-  role = "${aws_iam_role.datalake_admin.name}"
-  policy_arn = "${aws_iam_policy.aws_cdp_dynamodb_policy.arn}"
+  role = "$aws_iam_role.datalake_admin.name"
+  policy_arn = "$aws_iam_policy.aws_cdp_dynamodb_policy.arn"
 }
