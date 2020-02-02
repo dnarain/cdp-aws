@@ -25,6 +25,7 @@ variable "DYNAMODB_TABLE_NAME" {
 }
 
 ### THESE VARIABLES CAN BE SET BY COMMAND LINE FLAGS
+### e.g. use terraform apply -var="PREFIX=MyPrefix_"
 
 variable "PREFIX" {
   default = ""
@@ -32,7 +33,7 @@ variable "PREFIX" {
 }
 
 
-// Some variables
+// Local variables
 locals {
   policies_dir = "${path.root}/json_for_policies"
   LOGS_PATH = "logs"
