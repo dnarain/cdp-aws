@@ -15,12 +15,15 @@
 ## - aws-cdp-dynamodb-policy
 ## - aws-cdp-idbroker-assume-role
 
-## All nomenclature is as per CDP Documentation ()
+## All nomenclature is as per CDP Documentation 
+## https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html
 
-# if you want the generated artifacts to have a prefix to their name, then 
+# If you want the generated artifacts to have a prefix to their name, then 
 # specify by using -var argument on the command line
 # e.g. terraform appy -var="PREFIX=MyPrefix_"
 
+## All policies are in the json_for_policies directory and are copied from:
+## https://github.com/hortonworks/cloudbreak/tree/master/cloud-aws/src/main/resources/definitions/cdp
 
 ## Connect this to your AWS account - either provide a region/profile or
 ## alternatively the access_key/secret-key 
