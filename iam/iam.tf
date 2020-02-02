@@ -1,3 +1,13 @@
+## Connect this to your AWS account - either provide a region/profile or
+## alternatively the access_key/secret-key 
+
+provider "aws" {
+    region = "us-east-1"
+    profile = "terraform"
+#   access_key = ""
+#   secret_key = ""
+}
+
 ### THESE VARIABLES WILL BE REQUESTED ON THE COMMAND LINE
 
 variable "AWS_ACCOUNT_ID" {
@@ -6,12 +16,12 @@ variable "AWS_ACCOUNT_ID" {
 
 variable "DATALAKE_BUCKET" {
   type=string
-  description = "Please enter the bucket name (without s3://)"
+  description = "Please enter the bucket name (without s3://), wildcards are supported"
 }
 
 variable "DYNAMODB_TABLE_NAME" {
  type = string
- description = "Name of the dyanmodb table that you will provide CDP"
+ description = "Name of the dyanmodb table that you will provide CDP (wildcards are supported)"
 }
 
 ### THESE VARIABLES CAN BE SET BY COMMAND LINE FLAGS

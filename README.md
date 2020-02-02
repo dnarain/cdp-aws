@@ -8,15 +8,10 @@ How to use
 
 1. Install & Configure TerraForm for your AWS account (either via a awcli profile or by entering your access key)
 2. cd into the appropriate directory (iam for IAM, vpc for VPC...)
-- Edit aws.tf to provide your AWS credentials
-- Run terraform init
-- Edit aws.tf to point to your AWS credentials
-- Run terraform plan to do a dry run
-- Run terraform init to do the real thing
-- If you would like your generated objects to have a prefix, then use:
+3. Edit the provider info to link terraform to your aws account
+4. Run terraform init
+5. Run terraform plan to do a dry run
+6. Run terraform init to do the real thing
+7. If you would like generated objects to have a prefix in their name, then use:
    terraform apply -var="PREFIX=ThisIsMyPrefix_"
-
-3. Run it: "terraform plan" to test and "terraform apply" for reals
-4. If you would like created artifacts to be have a prefix, then use:
-    terraform apply -var="PREFIX=MyPrefix_"
 

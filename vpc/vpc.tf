@@ -20,6 +20,15 @@
 ## It takes time to create NAT Gatways - expect this step to take up to 3 mins
 ## It also takes time to destroy NAT Gatways - expect this step to take 1-2 mins
 
+## Connect this to your AWS account - either provide a region/profile or
+## alternatively the access_key/secret-key 
+
+provider "aws" {
+    region = "us-east-1"
+    profile = "terraform"
+#   access_key = ""
+#   secret_key = ""
+}
 
 #### 
 #### VARIABLES GO HERE
@@ -69,87 +78,87 @@ resource "aws_vpc" "the_vpc" {
 ## But, if I don't supply the {} around the vpc reference, then the reference is invalid
 
 resource "aws_internet_gateway" "the_igw" {
-    vpc_id="${aws_vpc.the_vpc.id}"
+    vpc_id=aws_vpc.the_vpc.id
     tags = {
         Name = "${var.PREFIX}cdp-igw"
     }
 }
 
 
-## Before you set up the public subnets, set up the routing table they will use
- resource "aws_route_table" "the_public_route" {
-      vpc_id="${aws_vpc.the_vpc.id}"
+# ## Before you set up the public subnets, set up the routing table they will use
+#  resource "aws_route_table" "the_public_route" {
+#       vpc_id="${aws_vpc.the_vpc.id}"
 
-      route {
-          cidr_block = "0.0.0.0/0"
-          gateway_id = "${aws_internet_gateway.the_igw.id}"
-      }
+#       route {
+#           cidr_block = "0.0.0.0/0"
+#           gateway_id = "${aws_internet_gateway.the_igw.id}"
+#       }
 
-      tags = {
-          Name = "${var.PREFIX}cdp-publicroute"
-      }
-  }
+#       tags = {
+#           Name = "${var.PREFIX}cdp-publicroute"
+#       }
+#   }
 
-## Create a public subnets and have them route to the IGW. 
-resource "aws_subnet" "public_subnets" {
-  count = 3
-  vpc_id = "${aws_vpc.the_vpc.id}"
-  cidr_block = "${cidrsubnet(aws_vpc.the_vpc.cidr_block, var.SUBNET_CIDR_NEWBITS, count.index)}"
-  availability_zone = "${var.AZs[count.index]}"
-  map_public_ip_on_launch = true
-  tags = {
-    Name = "${var.PREFIX}cd-public-subnet-${count.index}"
-  }
-}
+# ## Create a public subnets and have them route to the IGW. 
+# resource "aws_subnet" "public_subnets" {
+#   count = 3
+#   vpc_id = "${aws_vpc.the_vpc.id}"
+#   cidr_block = "${cidrsubnet(aws_vpc.the_vpc.cidr_block, var.SUBNET_CIDR_NEWBITS, count.index)}"
+#   availability_zone = "${var.AZs[count.index]}"
+#   map_public_ip_on_launch = true
+#   tags = {
+#     Name = "${var.PREFIX}cd-public-subnet-${count.index}"
+#   }
+# }
   
- resource "aws_route_table_association" "public_rt_associations" {
-   count = 3
-   subnet_id = "${aws_subnet.public_subnets[count.index].id}"
-   route_table_id = "${aws_route_table.the_public_route.id}"
- }
+#  resource "aws_route_table_association" "public_rt_associations" {
+#    count = 3
+#    subnet_id = "${aws_subnet.public_subnets[count.index].id}"
+#    route_table_id = "${aws_route_table.the_public_route.id}"
+#  }
 
-resource "aws_eip" "elastic_ips" {
-  count = 3
-  vpc = true
-  tags = {
-    Name = "${var.PREFIX}cdp-eip-${count.index}"
-  }
-}
+# resource "aws_eip" "elastic_ips" {
+#   count = 3
+#   vpc = true
+#   tags = {
+#     Name = "${var.PREFIX}cdp-eip-${count.index}"
+#   }
+# }
 
-resource "aws_nat_gateway" "nat_gws" {
-  count = 3
-  allocation_id = "${aws_eip.elastic_ips[count.index].id}"
-  subnet_id = "${aws_subnet.public_subnets[count.index].id}"
-   tags = {
-    Name = "${var.PREFIX}cdp-natgw-${count.index}"
-  }
-}
+# resource "aws_nat_gateway" "nat_gws" {
+#   count = 3
+#   allocation_id = "${aws_eip.elastic_ips[count.index].id}"
+#   subnet_id = "${aws_subnet.public_subnets[count.index].id}"
+#    tags = {
+#     Name = "${var.PREFIX}cdp-natgw-${count.index}"
+#   }
+# }
 
 
-resource "aws_subnet" "private_subnets" {
-  count = 3
-  vpc_id = "${aws_vpc.the_vpc.id}"
-  cidr_block = "${cidrsubnet(aws_vpc.the_vpc.cidr_block, var.SUBNET_CIDR_NEWBITS, count.index+3)}"
-  availability_zone = "${var.AZs[count.index]}"
-  tags = {
-        Name = "${var.PREFIX}cdp-private-subnet-${count.index}"
-    }
-}
+# resource "aws_subnet" "private_subnets" {
+#   count = 3
+#   vpc_id = "${aws_vpc.the_vpc.id}"
+#   cidr_block = "${cidrsubnet(aws_vpc.the_vpc.cidr_block, var.SUBNET_CIDR_NEWBITS, count.index+3)}"
+#   availability_zone = "${var.AZs[count.index]}"
+#   tags = {
+#         Name = "${var.PREFIX}cdp-private-subnet-${count.index}"
+#     }
+# }
 
-resource "aws_route_table" "private_routes" {
-    count = 3
-    vpc_id = "${aws_vpc.the_vpc.id}"
-    route {
-        cidr_block = "0.0.0.0/0"
-        gateway_id = "${aws_nat_gateway.nat_gws[count.index].id}"
-    }
-    tags = {
-        Name = "${var.PREFIX}cdp-private-route-table-${count.index}"
-    }
-}
+# resource "aws_route_table" "private_routes" {
+#     count = 3
+#     vpc_id = "${aws_vpc.the_vpc.id}"
+#     route {
+#         cidr_block = "0.0.0.0/0"
+#         gateway_id = "${aws_nat_gateway.nat_gws[count.index].id}"
+#     }
+#     tags = {
+#         Name = "${var.PREFIX}cdp-private-route-table-${count.index}"
+#     }
+# }
 
-resource "aws_route_table_association" "private_rt_associations" {
-    count = 3
-    subnet_id = "${aws_subnet.private_subnets[count.index].id}"
-    route_table_id = "${aws_route_table.private_routes[count.index].id}"
-}
+# resource "aws_route_table_association" "private_rt_associations" {
+#     count = 3
+#     subnet_id = "${aws_subnet.private_subnets[count.index].id}"
+#     route_table_id = "${aws_route_table.private_routes[count.index].id}"
+# }
