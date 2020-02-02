@@ -17,6 +17,6 @@ How to use
    terraform apply -var="PREFIX=ThisIsMyPrefix_"
 
 3. Run it: "terraform plan" to test and "terraform apply" for reals
-4. If you would like your IAM roles and policies to be have a prefix, then use:
+4. If you would like created artifacts to be have a prefix, then use:
     terraform apply -var="PREFIX=MyPrefix_"
 
