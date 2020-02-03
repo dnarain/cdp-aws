@@ -2,7 +2,7 @@
  
 Various bits of terraform required to create AWS artifacts that CDP needs.  I've placed each in its own directory as they're designed to run independent of each other.  We currently have:
 - VPC/ - create the VPC structure that is needed for the CCM/Private IPs feature to work
-- IAM/ - create IAM Policies & Roles required by CDP (as per documentation - link to https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html)
+- IAM/ - create IAM Policies & Roles ras per [CDP documentation][https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html)
 
 How to use
 
