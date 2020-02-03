@@ -7,7 +7,7 @@ Various bits of terraform required to create AWS artifacts that CDP needs.  I've
 How to use
 
 1. Install & Configure TerraForm for your AWS account (either via a awcli profile or by entering your access key)
-2. cd into the appropriate directory (iam for IAM, vpc for VPC...)
+2. cd into the appropriate directory (iam for IAM, vpc for VPC)
 3. Edit the provider info in aws.tf to link terraform to your aws account.  You can either provide your access key/secret access key, or set up an IAM role and use it in your ~/.aws/credentials file.  For details on all your options, please visit the [official terraform documentation](https://www.terraform.io/docs/providers/aws/index.html)
 4. Run terraform init to initialize terraform
 5. Run terraform plan to do a dry run and terraform init to do the real thing
