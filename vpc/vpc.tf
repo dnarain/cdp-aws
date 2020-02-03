@@ -20,16 +20,6 @@
 ## It takes time to create NAT Gatways - expect this step to take up to 3 mins
 ## It also takes time to destroy NAT Gatways - expect this step to take 1-2 mins
 
-## Connect this to your AWS account - either provide a region/profile or
-## alternatively the access_key/secret-key 
-
-provider "aws" {
-    region = "us-east-1"
-    profile = "terraform"
-#   access_key = ""
-#   secret_key = ""
-}
-
 #### 
 #### VARIABLES GO HERE
 #### 

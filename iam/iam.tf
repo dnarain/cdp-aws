@@ -25,21 +25,9 @@
 ## All policies are in the json_for_policies directory and are copied from:
 ## https://github.com/hortonworks/cloudbreak/tree/master/cloud-aws/src/main/resources/definitions/cdp
 
-## Connect this to your AWS account - either provide a region/profile or
-## alternatively the access_key/secret-key 
-
-provider "aws" {
-    region = "us-east-1"
-    profile = "terraform"
-#   access_key = ""
-#   secret_key = ""
-}
 
 ### THESE VARIABLES WILL BE REQUESTED ON THE COMMAND LINE
 
-variable "AWS_ACCOUNT_ID" {
-  description = "Enter the 12 Digit AWS Account ID that you will use for CDP"
-}
 
 variable "DATALAKE_BUCKET" {
   type=string
@@ -59,6 +47,16 @@ variable "PREFIX" {
   description = "Prefix for names of created objects (e.g. CDPPOC_)"
 }
 
+data "aws_caller_identity" "current" {}
+
+variable "AWS_ACCOUNT_ID" {
+  value = "${data.aws_caller_identity.current.account_id}"
+}
+
+# variable "AWS_ACCOUNT_ID" {
+#   description = "Enter the 12 Digit AWS Account ID that you will use for CDP"
+#   default = "${data.aws_caller_identity.current.account_id}"
+# }
 
 // Local variables
 locals {
@@ -107,7 +105,7 @@ resource "aws_iam_role" "ranger_audit" {
   path = "/"
 
   assume_role_policy = replace(templatefile("${local.policies_dir}/aws-cdp-idbroker-role-trust-policy.json",
-    { AWS_ACCOUNT_ID = "${var.AWS_ACCOUNT_ID}",
+    { AWS_ACCOUNT_ID = "${AWS_ACCOUNT_ID}",
       IDBROKER_ROLE = "$aws_iam_role.idbroker.name"
     }
     ),
@@ -121,7 +119,7 @@ resource "aws_iam_role" "datalake_admin" {
       name="${var.PREFIX}DATALAKE_ADMIN_ROLE"
   path="/"
   assume_role_policy = replace(templatefile("${local.policies_dir}/aws-cdp-idbroker-role-trust-policy.json",
-    { AWS_ACCOUNT_ID = "${var.AWS_ACCOUNT_ID}",
+    { AWS_ACCOUNT_ID = "${AWS_ACCOUNT_ID}",
       IDBROKER_ROLE = "$aws_iam_role.idbroker.name"
     }
     ),
