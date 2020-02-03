@@ -1,7 +1,7 @@
-##   Terraform to set up a VPC for CDP w/ CCM (Private IPs) enabled
+##   Terraform to set up a VPC for CDP Public Cloud w/ CCM (Private IPs) enabled
 ##   dnarain@cloudera.com
 
-## This TF will create the following artifacts
+## This TF will create the following artifacts in your AWS IAM:
 ## 4x IAM Roles:
 ## - IDBROKER_ROLE
 ## - LOG_ROLE
@@ -15,7 +15,7 @@
 ## - aws-cdp-dynamodb-policy
 ## - aws-cdp-idbroker-assume-role
 
-## All nomenclature is as per CDP Documentation 
+## All artifact are named as per CDP Public Clod Documentation 
 ## https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html
 
 # If you want the generated artifacts to have a prefix to their name, then 
@@ -27,11 +27,9 @@
 
 
 ### THESE VARIABLES WILL BE REQUESTED ON THE COMMAND LINE
-
-
 variable "DATALAKE_BUCKET" {
-  type=string
-  description = "Enter the bucket name (without s3://), wildcards are supported"
+  type = string
+  description = "Enter the path to your datalake storage in S3 (without s3://) e.g mybucket or even mybucket/mydatalake"
 }
 
 variable "DYNAMODB_TABLE_NAME" {
@@ -49,15 +47,6 @@ variable "PREFIX" {
 
 data "aws_caller_identity" "current" {}
 
-variable "AWS_ACCOUNT_ID" {
-  value = "${data.aws_caller_identity.current.account_id}"
-}
-
-# variable "AWS_ACCOUNT_ID" {
-#   description = "Enter the 12 Digit AWS Account ID that you will use for CDP"
-#   default = "${data.aws_caller_identity.current.account_id}"
-# }
-
 // Local variables
 locals {
   policies_dir = "${path.root}/json_for_policies"
@@ -66,12 +55,7 @@ locals {
 }
 
 
-// IDBROKER_ROLE
-resource "aws_iam_instance_profile" "idbroker" {
-  name = "${var.PREFIX}IDBROKER_ROLE"
-  role = "$aws_iam_role.idbroker.name"
-}
-
+// IDBROKER_ROLE and associated Instance Profile
 resource "aws_iam_role" "idbroker" {
   name = "${var.PREFIX}IDBROKER_ROLE"
   path = "/"
@@ -81,14 +65,12 @@ resource "aws_iam_role" "idbroker" {
     "Allow"
     )
 }
-
-// LOG_ROLE
-
-resource "aws_iam_instance_profile" "log" {
-  name = "${var.PREFIX}LOGS_ROLE"
-  role = "$aws_iam_role.log.name"
+resource "aws_iam_instance_profile" "idbroker" {
+  name = "${var.PREFIX}IDBROKER_ROLE"
+  role = aws_iam_role.idbroker.name
 }
 
+// LOG_ROLE and associated Instance Profile 
 resource "aws_iam_role" "log" {
   name = "${var.PREFIX}LOG_ROLE"
   path = "/"
@@ -99,18 +81,23 @@ resource "aws_iam_role" "log" {
     )
 }
 
+resource "aws_iam_instance_profile" "log" {
+  name = "${var.PREFIX}LOGS_ROLE"
+  role = aws_iam_role.log.name
+}
+
 // RANGER_AUDIT_ROLE
 resource "aws_iam_role" "ranger_audit" {
   name = "${var.PREFIX}RANGER_AUDIT_ROLE"
   path = "/"
 
   assume_role_policy = replace(templatefile("${local.policies_dir}/aws-cdp-idbroker-role-trust-policy.json",
-    { AWS_ACCOUNT_ID = "${AWS_ACCOUNT_ID}",
-      IDBROKER_ROLE = "$aws_iam_role.idbroker.name"
-    }
-    ),
-    "Allow",
-   "Allow"
+            { AWS_ACCOUNT_ID = "$data.aws_caller_identity.current.account_id",
+              IDBROKER_ROLE = "$aws_iam_role.idbroker.name"
+            }
+           ),
+      "Allow",
+      "Allow"
     )
 }
 
@@ -119,7 +106,7 @@ resource "aws_iam_role" "datalake_admin" {
       name="${var.PREFIX}DATALAKE_ADMIN_ROLE"
   path="/"
   assume_role_policy = replace(templatefile("${local.policies_dir}/aws-cdp-idbroker-role-trust-policy.json",
-    { AWS_ACCOUNT_ID = "${AWS_ACCOUNT_ID}",
+    { AWS_ACCOUNT_ID = "$data.aws_caller_identity.current.account_id",
       IDBROKER_ROLE = "$aws_iam_role.idbroker.name"
     }
     ),
