@@ -18,4 +18,3 @@ How to use
 - the name of the DynamoDB table that S3Guard will use (you can use wildcards e.g. * for any table)
 7. If you would like generated objects to have a prefix in their name, you can use:
    `terraform apply -var="PREFIX=ThisIsMyPrefix_"`
-

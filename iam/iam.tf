@@ -29,12 +29,21 @@
 ### THESE VARIABLES WILL BE REQUESTED ON THE COMMAND LINE
 variable "DATALAKE_BUCKET" {
   type = string
-  description = "Enter the path to your datalake storage in S3 (without s3://) e.g mybucket or even mybucket/mydatalake"
+  description = << EOF
+  "Enter the path to the S3 bucket for the datalake (without the leading  s3://) "
+  EOF
 }
 
+### Enhancement TODO: Use bucket-s3a as the table name so that the 
+### user has one less thing to remember
 variable "DYNAMODB_TABLE_NAME" {
  type = string
- description = "Enter the dyanmodb table that you will provide CDP (wildcards are supported)"
+ default = ""
+ description = << EOF
+ "When you create a datalke, CDP will require the name of a DynamoDB table for 
+  s3a to use. Please specify this here. If you plan to create multiple datalakes
+  you can also use a wildcard - e.g. AllMyS3aTables-*"
+  EOF 
 }
 
 ### THESE VARIABLES CAN BE SET BY COMMAND LINE FLAGS
@@ -51,7 +60,7 @@ data "aws_caller_identity" "current" {}
 locals {
   policies_dir = "${path.root}/json_for_policies"
   LOGS_PATH = "logs"
-  STORAGE_LOCATION_PATH = "my-dl"
+  STORAGE_LOCATION_PATH = "datalake"
 }
 
 // IDBROKER_ROLE and associated Instance Profile
