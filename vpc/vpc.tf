@@ -94,7 +94,7 @@ resource "aws_subnet" "public_subnets" {
   count = 3
   vpc_id = aws_vpc.the_vpc.id
   cidr_block = cidrsubnet(aws_vpc.the_vpc.cidr_block, var.SUBNET_CIDR_NEWBITS, count.index)
-  availability_zone = "${var.AZs[count.index]}"
+  availability_zone = "var.AZs[count.index]"
   map_public_ip_on_launch = true
   tags = {
     Name = "${var.PREFIX}cd-public-subnet-${count.index}"
@@ -129,7 +129,7 @@ resource "aws_subnet" "private_subnets" {
   count = 3
   vpc_id = aws_vpc.the_vpc.id
   cidr_block = cidrsubnet(aws_vpc.the_vpc.cidr_block, var.SUBNET_CIDR_NEWBITS, count.index+3)
-  availability_zone = "${var.AZs[count.index]}"
+  availability_zone = "var.AZs[count.index]"
   tags = {
         Name = "${var.PREFIX}cdp-private-subnet-${count.index}"
     }
