@@ -44,9 +44,10 @@
 variable "DATALAKE_BUCKET" {
   type = string
   description = <<EOF
-  Enter the bucket name for the datlake (without the leading  s3://). The
-  datalake will be created in {bucketname}/* and the logs in {bucketname}/logs/*.
-  You will need to use {bucketname} as the name of the Dynamodb Table for S3Guard.
+  Enter the bucket name for the datlake (without the leading  s3://). 
+  The datalake will be created in {bucketname}/* and the logs in 
+  {bucketname}/logs/*.
+  You must use {bucketname} as the name of the Dynamodb Table for S3Guard.
   EOF
 }
 
