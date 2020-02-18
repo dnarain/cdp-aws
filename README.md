@@ -14,8 +14,8 @@ How to use
 4. Run `terraform init` 
 5. Run `terraform plan` to do a dry run and `terraform init` to do the real thing
 6. The IAM setup will ask you for the name of the S3 bucket to use for the datalake
- - The datalake is created in <bucketname> and the logs are expected to be in <bucketname>/logs
- - The DynamoDB table to be used can be named <bucketname>* (e.g. <bucketname>-s3a, <bucketname> etc.)
+ - The datalake is created in the root folder of this bucket and the logs are expected to be in the logs folder 
+ - The DynamoDB table to be used can be named bucketname* (e.g. bucketname-s3a, bucketname etc.)
 7. If you would like generated objects to have a prefix in their name, you can use:
    `terraform apply -var="PREFIX=ThisIsMyPrefix_"`
    
