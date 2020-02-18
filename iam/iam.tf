@@ -64,7 +64,6 @@ locals {
   DYNAMODB_TABLE_NAME = "${var.DATALAKE_BUCKET}*"
   DEFAULT_ENCRYPTION_KEY_ARN = "arn:aws:kms:${data.aws_region.theregion.name}:${data.aws_caller_identity.theaccount.account_id}:alias/aws/s3"
 }
-}
 
 // IDBROKER_ROLE and associated Instance Profile
 resource "aws_iam_role" "idbroker" {
