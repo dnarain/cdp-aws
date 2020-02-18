@@ -60,7 +60,7 @@ data "aws_caller_identity" "current" {}
 locals {
   policies_dir = "${path.root}/json_for_policies"
   LOGS_PATH = "logs"
-  STORAGE_LOCATION_PATH = "datalake"
+  STORAGE_LOCATION_PATH = ""
 }
 
 // IDBROKER_ROLE and associated Instance Profile
