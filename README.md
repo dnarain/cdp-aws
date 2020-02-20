@@ -4,7 +4,7 @@ This repo contains various bits to make it easier to bring up Cloudera Data Plat
 
 I've placed each in its own directory as they're designed to run independent of each other.  We currently have:
 - VPC/ - Terraform to create the VPC structure that is needed for the CCM/Private IPs feature to work
-- IAM/ - Terraform to create IAM Policies & Roles ras per [CDP documentation](https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html)
+- IAM/ - Terraform to create IAM Policies & Roles as per [CDP documentation](https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html)
 
 How to use
 
