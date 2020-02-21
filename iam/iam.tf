@@ -45,9 +45,9 @@ variable "DATALAKE_BUCKET" {
   type = string
   description = <<EOF
   Enter the bucket name for the datlake (without the leading  s3://). 
-  The datalake will be created in {bucketname}/* and the logs in 
-  {bucketname}/logs/*.
-  You must use {bucketname} as the name of the Dynamodb Table for S3Guard.
+  - Datalake location will be {bucketname}/ 
+  - Logs location will be {bucketname}/logs
+  - DynamoDB table will be {bucketname}* (e.g. {bucketname}, {bucketname}-s3a etc.)
   EOF
 }
 
@@ -68,8 +68,8 @@ data "aws_region" "theregion" {}
 
 locals {
   policies_dir = "${path.root}/json_for_policies"
+  STORAGE_LOCATION_PATH = ""
   LOGS_PATH = "logs"
-  STORAGE_LOCATION_PATH = "datalake"
   DYNAMODB_TABLE_NAME = "${var.DATALAKE_BUCKET}*"
   DEFAULT_ENCRYPTION_KEY_ARN = "arn:aws:kms:${data.aws_region.theregion.name}:${data.aws_caller_identity.theaccount.account_id}:alias/aws/s3"
 }
