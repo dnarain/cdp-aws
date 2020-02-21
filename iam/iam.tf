@@ -69,7 +69,7 @@ data "aws_region" "theregion" {}
 locals {
   policies_dir = "${path.root}/json_for_policies"
   LOGS_PATH = "logs"
-  STORAGE_LOCATION_PATH = ""
+  STORAGE_LOCATION_PATH = "datalake"
   DYNAMODB_TABLE_NAME = "${var.DATALAKE_BUCKET}*"
   DEFAULT_ENCRYPTION_KEY_ARN = "arn:aws:kms:${data.aws_region.theregion.name}:${data.aws_caller_identity.theaccount.account_id}:alias/aws/s3"
 }
