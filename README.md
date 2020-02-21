@@ -19,5 +19,10 @@ How to use
 - IAM will ask you for the name of the bucket
 7. If you would like generated IAM & VPC object names to have a prefix, use:
    `terraform apply -var="PREFIX=ThisIsMyPrefix_"`
-   
+
+Video Instructions
+- IAM: https://youtu.be/CStOiWKmb28
+- S3:  https://youtu.be/pu_Y_EpYvps
+- VPC: https://youtu.be/93-qsSTSXX0
+
  PS: Don't forget to set up a ssh tunnel or a proxy in a bastion host so that you can access the CDP endpoints from your network.
