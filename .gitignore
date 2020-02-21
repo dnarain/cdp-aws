@@ -11,3 +11,6 @@
 # Crash log files
 crash.log
 .gitignore
+iam/aws.tf
+vpc/aws.tf
+s3/aws.tf
