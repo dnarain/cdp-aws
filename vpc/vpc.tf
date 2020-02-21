@@ -97,7 +97,7 @@ resource "aws_subnet" "public_subnets" {
   availability_zone = var.AZs[count.index]
   map_public_ip_on_launch = true
   tags = {
-    Name = "${var.PREFIX}cd-public-subnet-${count.index}"
+    Name = "${var.PREFIX}cdp-public-subnet-${count.index}"
   }
 }
   
