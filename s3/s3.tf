@@ -13,8 +13,8 @@ variable "DATALAKE_BUCKET" {
   Enter the bucket name for the datlake (without the leading  s3://).
   If the bucket doesn't exist, it will be created. 
   Default encryption will be enabled (even for pre-existing buckets)
-  2 Folders will be created in this bucket - datalake and logs
-  NOTE: terraform destroy WILL destroy the bucket, even if it pre-existed
+  A folder called logs will be created in this bucket
+   NOTE: terraform destroy WILL destroy the bucket, even if it pre-existed
   EOF
 }
 
