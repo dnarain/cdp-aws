@@ -7,3 +7,6 @@
 
 # Crash log files
 crash.log
+iam/aws.tf
+.gitignore
+iam/aws.tf
