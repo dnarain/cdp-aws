@@ -1,4 +1,5 @@
-##   Terraform to set up a VPC for CDP w/ CCM (Private IPs) enabled
+##   Terraform to set up a S3 for CDP w/ Default Encryption enabled
+##   and 2 folders - datalake/ and logs/
 ##   dnarain@cloudera.com
 
 ## Connect this to your AWS account - either provide a region/profile or
