@@ -19,11 +19,6 @@ variable "DATALAKE_BUCKET" {
 }
 
 
-resource "aws_kms_key" "mykey" {
-  description             = "This key is used to encrypt bucket objects"
-  deletion_window_in_days = 10
-}
-
 resource "aws_s3_bucket" "the_bucket" {
   bucket = var.DATALAKE_BUCKET
   tags = {
@@ -32,17 +27,10 @@ resource "aws_s3_bucket" "the_bucket" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.mykey.arn
-        sse_algorithm     = "aws:kms"
+        sse_algorithm     = "AES256"
       }
     }
   }
-}
-
-resource "aws_s3_bucket_object" "datalake_folder" {
-    bucket  = aws_s3_bucket.the_bucket.id
-    key     =  "datalake/"
-    content_type = "application/x-directory"
 }
 
 resource "aws_s3_bucket_object" "logs_folder" {
