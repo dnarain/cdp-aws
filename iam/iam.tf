@@ -217,11 +217,15 @@ resource "aws_iam_policy" "aws_cdp_sse_kms_read_write_policy" {
 // attaching policies to roles
 
 // Log role
-resource "aws_iam_role_policy_attachment" "log_role_to_log_policy_s3access" {
+resource "aws_iam_role_policy_attachment" "log_role_to_log_policy" {
   role = aws_iam_role.log.name
   policy_arn = aws_iam_policy.aws_cdp_log_policy.arn
 }
 
+resource "aws_iam_role_policy_attachment" "log_role_to_bucket_accesspolicy" {
+  role = aws_iam_role.log.name
+  policy_arn = aws_iam_policy.aws_cdp_bucket_access_policy.arn
+}
 resource "aws_iam_role_policy_attachment" "log_role_to_kms" {
   role = aws_iam_role.log.name
   policy_arn = aws_iam_policy.aws_cdp_sse_kms_read_write_policy.arn
@@ -236,14 +240,19 @@ resource "aws_iam_role_policy_attachment" "idbroker_role_to_assume_role_policy" 
 
 
 // Ranger Audit Role
-resource "aws_iam_role_policy_attachment" "ranger_audit_role_to_range_audit_policy_s3access" {
+resource "aws_iam_role_policy_attachment" "ranger_audit_role_to_ranger_audit_s3_policy" {
   role = aws_iam_role.ranger_audit.name
   policy_arn = aws_iam_policy.aws_cdp_ranger_audit_s3_policy.arn
 }
 
-resource  "aws_iam_role_policy_attachment" "ranger_audit_role_to_bucket_policy_s3_access" {
+resource  "aws_iam_role_policy_attachment" "ranger_audit_role_to_cdp_bucket_access_policy" {
   role = aws_iam_role.ranger_audit.name
-  policy_arn = aws_iam_policy.aws_cdp_ranger_audit_s3_policy.arn
+  policy_arn = aws_iam_policy.aws_cdp_bucket_access_policy.arn
+}
+
+resource  "aws_iam_role_policy_attachment" "ranger_audit_role_to_cdp_dynamodb_policy" {
+  role = aws_iam_role.ranger_audit.name
+  policy_arn = aws_iam_policy.aws_cdp_dynamodb_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "ranger_audit_role_to_kms" {
@@ -252,7 +261,12 @@ resource "aws_iam_role_policy_attachment" "ranger_audit_role_to_kms" {
 }
 
 // Datalake admin
-resource "aws_iam_role_policy_attachment" "datalake_admin_role_to_datalake_admin_policy_s3access" {
+resource "aws_iam_role_policy_attachment" "datalake_admin_role_to_datalake_admin_s3_policy" {
+  role = aws_iam_role.datalake_admin.name
+  policy_arn = aws_iam_policy.aws_cdp_datalake_admin_s3_policy.arn 
+}
+
+resource "aws_iam_role_policy_attachment" "datalake_admin_role_to_cdp_bucket_access_policy" {
   role = aws_iam_role.datalake_admin.name
   policy_arn = aws_iam_policy.aws_cdp_bucket_access_policy.arn
 }
