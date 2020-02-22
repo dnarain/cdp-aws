@@ -44,7 +44,7 @@
 variable "DATALAKE_BUCKET" {
   type = string
   description = <<EOF
-  Enter the bucket name for the datlake (without the leading  s3://). 
+  Enter the bucket name for the datlake (without a leading  s3:// or a trailing /). 
   - Datalake location will be {bucketname}/ 
   - Logs location will be {bucketname}/logs
   - DynamoDB table will be {bucketname}* (e.g. {bucketname}, {bucketname}-s3a etc.)

@@ -6,7 +6,7 @@
 
 provider "aws" {
     region = "us-east-1"
-    profile = "terraform"
+    profile = "aws-pm-cdp-sandbox-env"
 #   access_key = ""
 #   secret_key = ""
 }
