@@ -6,7 +6,7 @@
 
 provider "aws" {
     region = "us-east-1"
-    profile = "terraform"
+    profile = "xyzzx"
 #   access_key = ""
 #   secret_key = ""
 }
