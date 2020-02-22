@@ -172,29 +172,21 @@ resource "aws_iam_policy" "aws_cdp_datalake_admin_s3_policy" {
     )
 }
 
-
 resource "aws_iam_policy" "aws_cdp_idbroker_assume_role" {
   name = "${var.PREFIX}aws-cdp-idbroker-assume-role"
   policy = file("${local.policies_dir}/aws-cdp-idbroker-assume-role-policy.json")
 }
 
-
-
-
 resource "aws_iam_policy" "aws_cdp_bucket_access_policy" {
   name="${var.PREFIX}aws-cdp-bucket-access-policy"
-  policy = replace(templatefile("${local.policies_dir}/aws-cdp-bucket-access-policy.json",
+  policy = templatefile("${local.policies_dir}/aws-cdp-bucket-access-policy.json",
     { LOGS_LOCATION_BASE = "${var.DATALAKE_BUCKET}${local.LOGS_PATH}" ,
       STORAGE_LOCATION_BASE = "${var.DATALAKE_BUCKET}${local.STORAGE_LOCATION_PATH}",
       DATALAKE_BUCKET = "${var.DATALAKE_BUCKET}"
       DYNAMODB_TABLE_NAME = "${local.DYNAMODB_TABLE_NAME}"
     }
-    ),
-    "s3:CreateJob",
-    "s3:ListJobs"
     )
 }
-
 
 resource "aws_iam_policy" "aws_cdp_dynamodb_policy" {
   name="${var.PREFIX}aws-cdp-dynamodb-policy"
