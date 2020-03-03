@@ -4,10 +4,15 @@
 ## Connect this to your AWS account - either provide a region/profile or
 ## alternatively the access_key/secret-key 
 
+variable "aws_profile" {
+}
+
+variable "aws_region" {
+}
+
 provider "aws" {
-    region = "us-east-1"
-    profile = "xyzzx"
-#   access_key = ""
-#   secret_key = ""
+  profile = var.aws_profile
+  region  = var.aws_region
+  version = "~> 2.39"
 }
 
