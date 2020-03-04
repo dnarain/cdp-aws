@@ -5,9 +5,6 @@
 *.tfstate
 *.tfstate.*
 
-# aws.tf files so that we never publish profile names
-**/aws.tf
-
 # Crash log files
 crash.log
 .gitignore

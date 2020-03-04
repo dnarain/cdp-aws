@@ -4,9 +4,10 @@ This repo contains various bits to make it easier to bring up Cloudera Data Plat
 
 I've placed 3 modules each in its own directory as they're designed to be include-able from a common main.tf file.  
 We currently have:
-- S3/  - Create the S3 bucket with Default Encryption and the logs folder 
-- VPC/ - Create the VPC structure that is needed for the CCM/Private IPs feature to work
-- IAM/ - Create IAM Policies & Roles as per [CDP documentation](https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html)
+- cross-account-role - Create IAM role for CDP management access
+- S3  - Create the S3 bucket with Default Encryption and the logs folder 
+- VPC - Create the VPC structure that is needed for the CCM/Private IPs feature to work
+- IAM - Create IAM Policies & Roles as per [CDP documentation](https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html)
 
 How to use
 
