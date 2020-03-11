@@ -69,7 +69,7 @@ data "aws_region" "theregion" {}
 ### to come up with the base
 
 locals {
-  policies_dir = "${path.root}/json_for_policies"
+  policies_dir = "${path.module}/json_for_policies"
   STORAGE_LOCATION_PATH = "" #REMINDER - make it /foldername
   LOGS_PATH = "/logs"
   DYNAMODB_TABLE_NAME = "${var.DATALAKE_BUCKET}*"
