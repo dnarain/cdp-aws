@@ -5,11 +5,11 @@
 ## 1x VPC (with the CIDR specified in the variable VPC_CIDR)
 ## 1x Internet Gateway (attached to this VPC)
 ## 1x Route Table that has a default route to the Internet Gatway
-## 3x Public Subnets (Map Public IP on Launch Flag = True, w/ above route table)
-## 3x Elastic IPs
-## 3x NAT Gateways - one per public subnet
-## 3x Route tables that have a default route to the NAT Gateway in a subnet
-## 3x Private Subnets (with above route table, Map Public IP on Launch Flag = False)
+## Nx Public Subnets (Map Public IP on Launch Flag = True, w/ above route table)
+## Nx Elastic IPs
+## Nx NAT Gateways - one per public subnet
+## Nx Route tables that have a default route to the NAT Gateway in a subnet
+## Nx Private Subnets (with above route table, Map Public IP on Launch Flag = False)
 ## NOTE: The VPC doesn't have a default route to the IGW, this is by design
 
 # if you want the generated artifacts to have a prefix to their name, then 
@@ -56,7 +56,7 @@ variable "AZs" {
 resource "aws_vpc" "the_vpc" {
     enable_dns_support = "true"
     enable_dns_hostnames = "true"
-    cidr_block = "10.0.0.0/16"
+    cidr_block = var.VPC_CIDR
 
     tags = {
         Name = "${var.PREFIX}cdp-vpc"
@@ -140,7 +140,7 @@ resource "aws_route_table" "private_routes" {
     vpc_id = aws_vpc.the_vpc.id
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = aws_nat_gateway.nat_gws[count.index].id
+        nat_gateway_id = aws_nat_gateway.nat_gws[count.index].id
     }
     tags = {
         Name = "${var.PREFIX}cdp-private-route-table-${count.index}"
