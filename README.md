@@ -9,6 +9,10 @@ We currently have:
 - VPC - Create the VPC structure that is needed for the CCM/Private IPs feature to work
 - IAM - Create IAM Policies & Roles as per [CDP documentation](https://docs.cloudera.com/management-console/cloud/environments/topics/mc-idbroker-minimum-setup.html)
 
+VPC Networking Diagram
+
+![](image/cdp-nw-prerequisite-aws.png "NW Diagram")
+
 How to use
 
 1. Install & Configure Terraform for your AWS account (either via a aws cli profile or by entering your access key)
